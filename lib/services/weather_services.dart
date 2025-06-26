@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http; // Para fazer requisições HTTP
 
 class WeatherServices {
   //URL base da API do OpenWeatherMap
-  static const BASE_URL = "http://api.openweathermap.org/data/3.0/weather";
+  static const BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
 
   final String apiKey; //Chave de API necessária para autenticação
 
