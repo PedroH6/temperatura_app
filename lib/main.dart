@@ -1,4 +1,4 @@
-import 'package:app_temperatura/weather_page.dart';
+import 'package:app_temperatura/pages/weather_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
