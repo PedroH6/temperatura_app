@@ -34,6 +34,15 @@ class _WeatherPageState extends State<WeatherPage> {
 
   //Animação do clima
 
+  //init state
+  @override
+  void initState() {
+    super.initState();
+
+    //buscar previsão do tempo na inicialização
+    _fetchWeather();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold();
