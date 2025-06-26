@@ -1,5 +1,7 @@
 import 'dart:convert'; // Para converter JSON em objetos Dart
 import 'package:app_temperatura/models/weather_model.dart'; // Modelo de dados personalizado para representar informações meteorológicas
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http; // Para fazer requisições HTTP
 
 class WeatherServices {
@@ -13,7 +15,7 @@ class WeatherServices {
   Future<WeatherModel> getWeather(String cityName) async {
     //Fazendo a requisição
     final response = await http.get(
-      Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric'), 
+      Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric'),
     );
 
     //Se a requisição foi bem-sucedida (código 200), converte o JSON em um objeto
@@ -22,5 +24,32 @@ class WeatherServices {
     } else {
       throw Exception('Fracassada'); //Caso contrário, lança uma exceção ERROR
     }
+  }
+
+  // obter permissão do usuário
+  Future<String> getCurrentCirty() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    //buscar a localização atual
+    Position position = await Geolocator.getCurrentPosition(
+     locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100
+     ),
+    );
+
+    //converter a localização em uma lista de objetos de marcadores
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      position.latitude,
+      position.longitude,
+    );
+
+    //extrair o nome da cidade do primeiro marcador
+    String? city = placemarks[0].locality;
+
+    return city ?? "";
   }
 }
