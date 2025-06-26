@@ -17,7 +17,7 @@ class _WeatherPageState extends State<WeatherPage> {
   //Buscar previsão do tempo
   _fetchWeather() async {
     //obter a cidade atual
-    String cityName = await _WeatherService.getCurrentCirty();
+    String cityName = await _WeatherService.getCurrentCity();
 
     //obter previsão do tempo para cidade
     try {
