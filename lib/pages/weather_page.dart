@@ -1,3 +1,5 @@
+import 'package:app_temperatura/models/weather_model.dart';
+import 'package:app_temperatura/services/weather_services.dart';
 import 'package:flutter/material.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -8,6 +10,30 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
+  //Api key
+  final _WeatherService = WeatherServices('');
+  WeatherModel? _weatherModel;
+
+  //Buscar previsão do tempo
+  _fetchWeather() async {
+    //obter a cidade atual
+    String cityName = await _WeatherService.getCurrentCirty();
+
+    //obter previsão do tempo para cidade
+    try {
+      final weather = await _WeatherService.getWeather(cityName);
+      setState(() {
+        _weatherModel = weather;
+      });
+    }
+    //quaisquer erros
+    catch (e) {
+      print(e);
+    }
+  }
+
+  //Animação do clima
+
   @override
   Widget build(BuildContext context) {
     return Scaffold();
